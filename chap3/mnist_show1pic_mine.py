@@ -9,8 +9,8 @@ def img_show(img):
 	pil_img.show()
 
 (x_train, t_train), (x_test, t_test) = load_mnist(flatten = True, normalize = False)
-img = x_train[0]
-label = t_train[0]
+img = x_train[4]
+label = t_train[4]
 print(label)
 
 print(img.shape)
