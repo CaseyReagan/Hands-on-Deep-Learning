@@ -25,7 +25,6 @@ def cross_entropy_error(y,t):
 ## 最终y[np.arange(batch_size),t]得到的数是y[0,2]; y[1,7]; y[n,t]这样的y的第n个batch里的第t个输出
 
 
-
 t = [0,0,1,0,0,0,0,0,0,0]
 t2 = [2]
 y = [0.1,0.05, 0.6, 0, 0.05, 0.1, 0, 0.1, 0, 0]
