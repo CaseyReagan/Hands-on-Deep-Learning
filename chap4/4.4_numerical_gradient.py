@@ -51,3 +51,43 @@ def tangent_line(f,x):
 	y = f(x) - d*x
 	return lambda t: d*t + y
 
+## 这个相当于程序的入口，而Python则不同，它属于脚本语言，
+## 	不像编译型语言那样先将程序编译成二进制再运行，而是动态的逐行解释运行。也就是从脚本第一行开始运行，没有统一的入口。
+##  一个Python源码文件（.py）除了可以被直接运行外，还可以作为模块（也就是库），被其他.py文件导入。不管是直接运行还是被导入，
+##  .py文件的最顶层代码都会被运行（Python用缩进来区分代码层次），而当一个.py文件作为模块被导入时，
+##  我们可能不希望一部分代码被运行。那些在import之后不希望被运行的代码就放在if __name__ == '__main__':之下
+if __name__ == '__main__':
+	x0 = np.arange(-2, 2.5, 0.25)
+	x1 = np.arange(-2, 2.5, 0.25)
+	## numpy提供的numpy.meshgrid()函数可以让我们快速生成坐标矩阵 X X X， Y Y Y。
+	## 这里x0和x1是给meshgrid函数的横纵坐标的一维向量，返回的X是一个二维矩阵，记录的是每一个点的横坐标
+	## Y返回的是每一个点的纵坐标(从小到大的，所以矩阵每一行都是同一值)，可以用这个函数来快速描绘一个坐标矩阵的网格
+	X, Y = np.meshgrid(x0, x1)
+
+	#print(X)
+	#print(Y)
+
+	## flatten()函数用来把多维的数组降低为一维的数组（向量），注意这个函数只能用在numpy arrary数组上，直接用在python list是不行的
+	X = X.flatten()
+	Y = Y.flatten()
+
+	print(X)
+	print(Y)
+
+	#print(np.array([X, Y]))
+	grad = numerical_grardient(function_2, np.array([X, Y]))
+	print(grad)
+
+	plt.figure()
+	## 画箭头图，后面两个参数的作用是箭头指向的方向和距离
+	## 在这个例子中，因为梯度最低点在坐标中心，所以梯度向量的负值，就是指向中心点的梯度下降的方向
+	plt.quiver(X, Y, -grad[0], -grad[1], angles="xy",color="#666666")
+	plt.xlim([-2, 2])
+	plt.ylim([-2, 2])
+	plt.xlabel('x0')
+	plt.ylabel('x1')
+	plt.grid()
+	plt.legend()
+	plt.draw()
+	plt.show()
+
