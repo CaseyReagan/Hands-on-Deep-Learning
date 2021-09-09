@@ -17,9 +17,11 @@ def function_1(x):						#目标函数
 def tangent_line(f, x):					# d是函数在x点的斜率
     d = numerical_centrol_diff(f, x)
     print(d)
-    y = f(x) - d*x               		# y是函数与y轴的交点，也就是垂直位移
-    print(y)
-    return lambda t: d*t + y 			# 切线函数，t为参量
+    y = f(x) - d*x               		# y是函数与y轴的交点，也就是垂直位移，也就是算的截距
+    print(y)		# 因为y = kx + b, 所以当我们知道一个点和它的斜率的时候，就可以y - kx = b获得截距
+    return lambda t: d*t + y 			# 切线函数，t为参量，相当于返回了一个y = kx + b
+## 这里的lambda函数又叫匿名函数，或者成为表达式，lambda函数减少了代码的冗余，同时可读性更高
+## 此处它的语法就是lambda t：这里t就是这个函数的参数,冒号后面跟的就是函数的内容（省去给函数命名了）
 
 ## 绘制目标函数
 x = np.arange(0, 20, 0.1)
