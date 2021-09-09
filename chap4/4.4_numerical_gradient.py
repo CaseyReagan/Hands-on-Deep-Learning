@@ -31,3 +31,23 @@ def numerical_grardient_1d(f,x):
 
 	return grad
 
+## test
+print(numerical_grardient_1d(function_2,np.array([3.0, 4.0])))
+
+def numerical_grardient(f,x):
+	if x.ndim == 1:
+		return numerical_grardient_1d(f,x)
+	else:
+		grad = np.zeros_like(x)
+
+		for idx, x1 in enumerate(x):	#enumerate函数用于将一个可遍历的数据对象组合为一个索引序列，同时列出数据和数据下标.例如此处idx=0的时候x1就等于x[0]
+			grad[idx] = numerical_grardient_1d(f, x1)
+
+		return grad
+
+def tangent_line(f,x):
+	d = numerical_grardient(f, x)
+	print(d)
+	y = f(x) - d*x
+	return lambda t: d*t + y
+
