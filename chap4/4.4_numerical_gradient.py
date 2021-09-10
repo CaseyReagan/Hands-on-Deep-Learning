@@ -1,4 +1,4 @@
-import sys, os 
+import sys, os
 sys.path.append(os.pardir) 
 import numpy as np
 import matplotlib.pylab as plt
@@ -14,7 +14,7 @@ def function_2(x):					# 这是一个有两个变量的数学函数，是我们�
 	else:
 		return np.sum(x**2,axis=1)
 
-def numerical_grardient_1d(f,x):
+def numerical_gradient_1d(f,x):
 	h = 1e-4
 	grad = np.zeros_like(x)  # 给梯度生成一个跟x大小相同的初始值为0的数组
 
@@ -32,21 +32,21 @@ def numerical_grardient_1d(f,x):
 	return grad
 
 ## test
-print(numerical_grardient_1d(function_2,np.array([3.0, 4.0])))
+print(numerical_gradient_1d(function_2,np.array([3.0, 4.0])))
 
-def numerical_grardient(f,x):
+def numerical_gradient(f,x):
 	if x.ndim == 1:
-		return numerical_grardient_1d(f,x)
+		return numerical_gradient_1d(f,x)
 	else:
 		grad = np.zeros_like(x)
 
 		for idx, x1 in enumerate(x):	#enumerate函数用于将一个可遍历的数据对象组合为一个索引序列，同时列出数据和数据下标.例如此处idx=0的时候x1就等于x[0]
-			grad[idx] = numerical_grardient_1d(f, x1)
+			grad[idx] = numerical_gradient_1d(f, x1)
 
 		return grad
 
 def tangent_line(f,x):
-	d = numerical_grardient(f, x)
+	d = numerical_gradient(f, x)
 	print(d)
 	y = f(x) - d*x
 	return lambda t: d*t + y
@@ -75,7 +75,7 @@ if __name__ == '__main__':
 	print(Y)
 
 	#print(np.array([X, Y]))
-	grad = numerical_grardient(function_2, np.array([X, Y]))
+	grad = numerical_gradient(function_2, np.array([X, Y]))
 	print(grad)
 
 	plt.figure()
