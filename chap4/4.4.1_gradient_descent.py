@@ -34,17 +34,40 @@ def numerical_gradient(f,x):
 
 def gradient_descent(f, init_x, lr=0.01, step_num=100):
 	x = init_x
+	x_history = []
 
 	for i in range(step_num):
+		x_history.append( x.copy() )	#首先append是为了每次都添加多一个x的点，然后x.copy()是做了一个
+										#x的浅拷贝，在python里直接赋值会变成引用，会跟着被改变，想要复制出
+										#一个一模一样值，但是不受影响的变量，就必须用copy()函数
 		grad = numerical_gradient(f,x)
 		x -= lr * grad 		# lr is learning rate
 
-	return x
+	return x, np.array(x_history)
 
 def function_2(x):
 	return x[0]**2 + x[1]**2
 
 init_x = np.array([-3.0, 4.0])
-gard_update = gradient_descent(function_2, init_x=init_x, lr=0.1, step_num=100)
-print(gard_update)
+gard_update,grad_history = gradient_descent(function_2, init_x=init_x, lr=0.1, step_num=100)
+#print("gard_update: "gard_update)
+#print("init_x: ",init_x)	## 为什么init_x的值会被改变，因为在gradient_descent函数中我写了x=init_x，
+							## 这里就是x是init_x的一个引用，而不是浅拷贝，所以会init_x会跟着x变，注意是list会跟着变
 
+init_x = np.array([-3.0, 4.0])
+lr = 0.1
+step_num = 20
+x, x_history = gradient_descent(function_2, init_x, lr=lr, step_num=step_num)
+#print("x: ",x)
+#print("x_history: ",x_history)
+#print("init_x: ",init_x)	
+
+plt.plot( [-5, 5], [0,0], '--b')
+plt.plot( [0,0], [-5, 5], '--b')
+plt.plot(x_history[:,0], x_history[:,1], 'o')
+
+plt.xlim(-3.5, 3.5)
+plt.ylim(-4.5, 4.5)
+plt.xlabel("X0")
+plt.ylabel("X1")
+plt.show()
