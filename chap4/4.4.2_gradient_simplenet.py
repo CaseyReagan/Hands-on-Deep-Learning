@@ -36,3 +36,7 @@ def f(W):		#这里的W是一个伪参数，因为numerical_gradient会在内部�
 
 dW = numerical_gradient(f, net.W)	# 求f这个函数关于net.W的各个参数的偏导数
 print("gradient is: ",dW)
+
+## 因为f是一个简单函数，所以可以用lambda表达式体现会更直观
+#f2 = lambda w: net.loss(x,t)
+#dW = numerical_gradient(f2,net.W)
