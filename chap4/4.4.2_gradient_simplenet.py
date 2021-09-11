@@ -1,0 +1,32 @@
+import sys, os
+sys.path.append(os.pardir)
+import numpy as np
+from common.functions import softmax, cross_entropy_error
+from common.gradient import numerical_gradient
+
+class simplenet(object):
+	"""docstring for simplenet"""
+	def __init__(self):
+		self.W = np.random.randn(2,3) # 用高斯分布进行初始化，一个2*3的权重矩阵
+
+	def predict(self, x):
+		return np.dot(x, self.W)
+
+	def loss(self, x, t):
+		z = self.predict(x)
+		y = softmax(z)
+		loss = cross_entropy_error(y,t)
+
+		return loss
+
+net = simplenet()
+print(net.W)
+
+x = np.array([0.6, 0.9])
+p = net.predict(x)
+print("p: ",p)
+y_label = np.argmax(p)	#最大值的索引 argmax返回的是最大数的索引
+print("Maximum y_label: ",y_label)
+t = np.array([1, 0, 0])
+loss = net.loss(x,t)
+print("The loss is: ",loss)
