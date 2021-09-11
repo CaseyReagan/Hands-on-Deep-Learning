@@ -30,3 +30,9 @@ print("Maximum y_label: ",y_label)
 t = np.array([1, 0, 0])
 loss = net.loss(x,t)
 print("The loss is: ",loss)
+
+def f(W):		#这里的W是一个伪参数，因为numerical_gradient会在内部执行f(x)，为了与之兼容而定义了f(W)
+	return net.loss(x,t)
+
+dW = numerical_gradient(f, net.W)	# 求f这个函数关于net.W的各个参数的偏导数
+print("gradient is: ",dW)
