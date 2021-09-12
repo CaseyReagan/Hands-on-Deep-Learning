@@ -5,11 +5,12 @@ from common.gradient import numerical_gradient
 
 class TwolayerNet(object):
 	"""docstring for TwolayerNet"""
+	## 输入数据大小，隐藏层数据大小，输出层数据大小，
 	def __init__(self, input_size, hidden_size, output_size, weight_init_std=0.01):
 		self.params = {}
-		self.params['W1'] = weight_init_std * np.random.randn(input_size, hidden_size)
-		self.params['b1'] = np.zeros(hidden_size)
-		self.params['W2'] = weight_init_std * np.random.randn(hidden_size, input_size)
+		self.params['W1'] = weight_init_std * np.random.randn(input_size, hidden_size)	# 高斯分布一个i*h大小的随机矩阵
+		self.params['b1'] = np.zeros(hidden_size)		# 偏置都用0初始化
+		self.params['W2'] = weight_init_std * np.random.randn(hidden_size, output_size)
 		self.params['b2'] = np.zeros(output_size)
 
 	def predict(self, x):
@@ -40,8 +41,8 @@ class TwolayerNet(object):
 		loss_W = lambda W: self.loss(x, t)
 
 		grads = {}
-		grads['W1'] = numerical_gradient(loss_W, self.params['W1'])
-		grads['b1'] = numerical_gradient(loss_W, self.params['b1'])
+		grads['W1'] = numerical_gradient(loss_W, self.params['W1'])		#这里numerical_gradient依然是用的数值微分来做梯度
+		grads['b1'] = numerical_gradient(loss_W, self.params['b1'])		#之后的章节会学习反向传播法来做更快的梯度计算
 		grads['W2'] = numerical_gradient(loss_W, self.params['W2'])
 		grads['b2'] = numerical_gradient(loss_W, self.params['b2'])
 
