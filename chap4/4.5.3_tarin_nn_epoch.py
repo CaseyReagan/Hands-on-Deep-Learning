@@ -12,6 +12,7 @@ train_acc_list = []
 test_acc_list = []
 # 平均每个epoch的重复次数
 iter_per_epoch = max(train_size / batch_size, 1)
+#iter_per_epoch = 10
 
 #超参数
 iters_num = 10000		# 梯度更新的次数，此处为10000次
@@ -28,8 +29,8 @@ for i in range(iters_num):
 	t_batch = t_train[batch_mask]
 
 	#	计算梯度
-	# grad = network.numerical_gradient(x_batch, t_batch)
-	grad = network.gradient(x_batch,t_batch)	# 高速版
+	grad = network.numerical_gradient(x_batch, t_batch)
+	# grad = network.gradient(x_batch,t_batch)	# 高速版
 
 	# 梯度下降，因为这里mini batch是随机选的，所以是SGD方法，随机梯度下降法
 	for key in ('W1', 'b1', 'W2', 'b2'):
@@ -39,7 +40,7 @@ for i in range(iters_num):
 	loss = network.loss(x_batch, t_batch)
 	train_loss_list.append(loss)
 
-	print("i: ",i)
+#	print("i: ",i)
 
 	#计算每个epoch的识别精度,每600次循环为一个epoch
 	if i % iter_per_epoch == 0:
