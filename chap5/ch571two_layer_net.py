@@ -29,6 +29,7 @@ class TwoLayerNet(object):
 		for layer in self.layers.values():		#此处layers一共有3个value,返回的都是视图对象（ view objects），提供了字典实体的动态视图，	
 			x = layer.forward(x)		#这就意味着字典改变，视图也会跟着变化。视图对象不是列表，不支持索引，可以使用 list() 来转换为列表。
 										#调用了每一层的forward函数，计算出了两层神经网络的输出（不包含softmax的）
+		return x
 
 	def loss(self, x, t):
 		y = self.predict(x)
