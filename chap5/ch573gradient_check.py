@@ -21,5 +21,5 @@ grad_numerical = network.numerical_gradient(x_batch, t_batch)
 grad_backprop = network.gradient(x_batch, t_batch)
 
 for key in grad_numerical.keys():
-	diff = np.average( np.abs(grad_backprop[key] - grad_numerical[key]))
+	diff = np.average( np.abs(grad_backprop[key] - grad_numerical[key]))	# abs()函数的目的是返回绝对值 average函数是求平均
 	print(key + ":" + str(diff))
