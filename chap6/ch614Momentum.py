@@ -1,3 +1,5 @@
+import numpy as np
+
 class Momentum(object):
 	"""doclr=0.01, momentum=0.9ing for Momentum"""
 	def __init__(self, lr=0.01, momentum=0.9):

@@ -1,3 +1,5 @@
+import numpy as np
+
 class SGD(object):
 	"""docstring for SGD"""
 	def __init__(self, lr=0.01):
