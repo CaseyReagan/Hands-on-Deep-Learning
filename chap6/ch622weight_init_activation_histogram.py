@@ -13,7 +13,8 @@ for i in range(hidden_layer_size):
 	if i != 0:
 		x = activations[i-1]
 
-	w = np.random.randn(node_num, node_num) * 1 	#标准差为1的高斯分布
+#	w = np.random.randn(node_num, node_num) * 1 	#标准差为1的高斯分布
+	w = np.random.randn(node_num, node_num) * 0.01 	#标准差为0.01的高斯分布
 
 	z = np.dot(x, w)
 	a = sigmoid(z)
