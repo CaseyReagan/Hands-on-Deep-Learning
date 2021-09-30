@@ -14,7 +14,9 @@ for i in range(hidden_layer_size):
 		x = activations[i-1]
 
 #	w = np.random.randn(node_num, node_num) * 1 	#标准差为1的高斯分布
-	w = np.random.randn(node_num, node_num) * 0.01 	#标准差为0.01的高斯分布
+#	w = np.random.randn(node_num, node_num) * 0.01 	#标准差为0.01的高斯分布
+	w = np.random.randn(node_num, node_num) / np.sqrt(node_num)		#用Xavier方法设置初始值，前一层姐的节点为n，则
+																	#初始值使用标准差为1 / sqrt(n)的分布
 
 	z = np.dot(x, w)
 	a = sigmoid(z)
