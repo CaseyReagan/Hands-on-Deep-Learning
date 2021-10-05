@@ -2,7 +2,7 @@ import sys, os
 sys.path.append(os.pardir)
 import numpy as np
 
-class Dropout(object):
+class Dropout(object):						# dropout 方法就是在传播过程中随机删除一些节点
 	"""docstring for Dropout"""
 	def __init__(self, dropout_ratio=0.5):
 		self.dropout_ratio = dropout_ratio
