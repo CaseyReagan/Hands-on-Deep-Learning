@@ -14,7 +14,7 @@ class Convolution(object):
 	def forward(self, x):
 		FN, C, FH, FW = self.W.shape 	##	卷积核是4维数据 卷积核数量、通道个数、高、宽
 		N, C, H, W = x.shape
-		out_h = int(1 + (H + 2*self.pad - FH) / self.stride)
+		out_h = int(1 + (H + 2*self.pad - FH) / self.stride)	## 计算卷积之后的数据的高和宽
 		out_w = int(1 + (W + 2*self.pad - FW) / self.stride)
 
 		col = im2col(x, FH, FW, self.stride, self.pad)		## 根据卷积核大小来展开输入数据
@@ -24,6 +24,9 @@ class Convolution(object):
 											# 得是一个一列列的矩阵，才能和前面一行行的展开的输入数据矩阵相乘。
 		out = np.dot(col, col_W) + self.b 	# 计算输入数据和卷积核的的矩阵的乘积
 
-		out = out.reshape(N, out_h, out_w, -1).transpose(0, 3, 1, 2)	## transpose会更改多维数组的轴的顺序
+		out = out.reshape(N, out_h, out_w, -1).transpose(0, 3, 1, 2)	## numpy的transpose会更改多维数组的轴的顺序
+																## 例如，对一个二维的数组做transpose，就想当于做转置
+																## 把out数据reshape之后，按照我们正常数据格式重新调换
+																## 各个维度的位置回到 N -1维度 out_h out_w的书序
 
 		return out
