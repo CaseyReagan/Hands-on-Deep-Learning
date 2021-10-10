@@ -1,7 +1,7 @@
 import sys, os
 sys.path.append(os.pardir)
 import numpy as np
-from common.util import im2col
+from common.util import im2col, col2im
 
 class Convolution(object):
 	"""docstring for Convolution"""
@@ -10,6 +10,15 @@ class Convolution(object):
 		self.b = b
 		self.stride = stride
 		self.pad = pad
+
+		# 需要保存的中间数据（backward时使用）
+		self.x = None
+		self.col = None
+		self.col_w = None
+
+		# 权重和偏置参数的梯度
+        self.dW = None
+        self.db = None
 
 	def forward(self, x):
 		FN, C, FH, FW = self.W.shape 	##	卷积核是4维数据 卷积核数量、通道个数、高、宽
@@ -29,4 +38,14 @@ class Convolution(object):
 																## 把out数据reshape之后，按照我们正常数据格式重新调换
 																## 各个维度的位置回到 N -1维度 out_h out_w的书序
 
+		self.x = x
+		self.col = col
+        self.col_W = col_W
+
 		return out
+
+	def backward(self, dout):
+
+		FN, C, FH, FW = self.W.shape
+        dout = dout.transpose(0,2,3,1).reshape(-1, FN)			## 先把反向传播数据转换成如上36行前半reshape的格式，再
+        														## reshape成FN列（反向传播中的操作全部要反过来）
