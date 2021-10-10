@@ -17,8 +17,8 @@ class Convolution(object):
 		self.col_w = None
 
 		# 权重和偏置参数的梯度
-        self.dW = None
-        self.db = None
+		self.dW = None
+		self.db = None
 
 	def forward(self, x):
 		FN, C, FH, FW = self.W.shape 	##	卷积核是4维数据 卷积核数量、通道个数、高、宽
@@ -40,12 +40,20 @@ class Convolution(object):
 
 		self.x = x
 		self.col = col
-        self.col_W = col_W
+		self.col_W = col_W
 
 		return out
 
 	def backward(self, dout):
-
 		FN, C, FH, FW = self.W.shape
-        dout = dout.transpose(0,2,3,1).reshape(-1, FN)			## 先把反向传播数据转换成如上36行前半reshape的格式，再
-        														## reshape成FN列（反向传播中的操作全部要反过来）
+		dout = dout.transpose(0,2,3,1).reshape(-1, FN)			## 先把反向传播数据转换成如上36行前半reshape的格式，再
+																## reshape成FN列（反向传播中的操作全部要反过来）
+
+		self.db = np.sum(dout, axis=0)					## 计算
+		self.dW = np.dot(self.col.T, dout)				## 
+		self.dW = self.dW.transpose(1, 0).reshape(FN, C, FH, FW)
+
+		dcol = np.dot(dout, self.col_W.T)
+		dx = col2im(dcol, self.x.shape, FH, FW, self.stride, self.pad)	## 
+
+		return dx
