@@ -1,6 +1,7 @@
 import sys, os
 sys.path.append(os.pardir)
 import numpy as np
+from common.layers import *
 from common.util import im2col, col2im
 
 class SimpleConvNet(object):
@@ -27,3 +28,14 @@ class SimpleConvNet(object):
 		self.params['b2'] = np.zeros(hidden_size)							##	这里开始才是池化之后的全连接层权重
 		self.params['W3'] = weight_init_std * np.random.randn(hidden_size, output_size)
 		self.params['b3'] = np.zeros(output_size)							##	第二层全连接层
+
+	## 各层的实例
+		self.layers = OrderedDict()
+		self.layers['Conv1'] = Convolution(self.params['W1'],self.params['b1'],conv_param['stride'],conv_param['pad'])
+		self.layers['Relu1'] = Relu()
+		self.layers['Pool1'] = Pooling(pool_h=2, Pool_w=2, stride=2)	## 2*2的池化层 步长一般跟池化层高宽一至
+		self.layers['Affine1'] = Affine(self.params['W2'], self.params['b2'])
+		self.layers['Relu2'] = Relu()
+		self.layers['Affine2'] = Affine(self.params['W3'], self.params['b3'])
+		self.last_layer = softmaxWithLoss()
+
