@@ -2,7 +2,9 @@ import sys, os
 sys.path.append(os.pardir)
 import numpy as np
 from common.layers import *
-from common.util import im2col, col2im
+import pickle
+from collections import OrderedDict
+#from common.util import im2col, col2im
 
 class SimpleConvNet(object):
 	"""docstring for SimpleConvNet"""
@@ -75,3 +77,10 @@ class SimpleConvNet(object):
 
 		return grads
 
+	## 保存权重
+	def save_params(self, file_name="params.pkl"):
+        params = {}
+        for key, val in self.params.items():
+            params[key] = val
+        with open(file_name, 'wb') as f:
+            pickle.dump(params, f)
