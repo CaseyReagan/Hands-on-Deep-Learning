@@ -15,15 +15,15 @@ class SimpleConvNet(object):
 		filter_size = conv_param['filter_size']
 		filter_pad = conv_param['pad']
 		filter_stride = conv_param['stride']
-		input_size = input_dim[1]								## 28 why?
+		input_size = input_dim[1]								## 28 why?	因为28是输入数据的高
 		conv_output_size = ((input_size - filter_size + 2*filter_pad) / filter_stride) + 1 		## 卷积输出的大小
 		pool_output_size = int(filter_num * (conv_output_size / 2) * (conv_output_size / 2))	## 池化输出的大小
 
 	##	权重的初始化
 		self.params = {}
 		self.params['W1'] = weight_init_std * np.random.randn(filter_num, input_dim[0], filter_size, filter_size)
-		self.params['b1'] = np.zeros(filter_num)
+		self.params['b1'] = np.zeros(filter_num)								##	实际上这里的W1是卷积层的权重
 		self.params['W2'] = weight_init_std * np.random.randn(pool_output_size, hidden_size)
-		self.params['b2'] = np.zeros(hidden_size)
+		self.params['b2'] = np.zeros(hidden_size)							##	这里开始才是池化之后的全连接层权重
 		self.params['W3'] = weight_init_std * np.random.randn(hidden_size, output_size)
-		self.params['b3'] = np.zeros(output_size)
+		self.params['b3'] = np.zeros(output_size)							##	第二层全连接层
