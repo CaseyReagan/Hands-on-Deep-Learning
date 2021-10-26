@@ -46,8 +46,32 @@ class SimpleConvNet(object):
 		return x
 
 	## softmax
-	def loss(self, x, t):
+	def loss(self, x, t):		## t是监督的label
 		y = self.predict(x)
 		return self.last_layer.forward(y, t)
 
-	
+	## 反向传播
+	def gradient(self, x, t):
+		# forward
+		self.loss(x, t)
+
+		# backward
+		dout = 1
+		dout = self.last_layer.backward(dout)
+
+		layers = list(self.layers.values())
+		layers.reverse()
+		for layer in layers:
+			dout = layer.backward(dout)
+
+		#设定
+		grads = {}
+		grads['W1'] = self.layers['Conv1'].dW
+		grads['b1'] = self.layers['Conv1'].db
+		grads['W2'] = self.layers['Affine1'].dW
+		grads['b2'] = self.layers['Affine1'].db
+		grads['W3'] = self.layers['Affine2'].dW
+		grads['b3'] = self.layers['Affine2'].db
+
+		return grads
+
